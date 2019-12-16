@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MonstroDev/expo-multiple-image-picker.git"
+    "url": "git+https://github.com/MonstroDev/expo-image-picker-multiple.git"
   },
   "keywords": [
     "Expo",
@@ -20,9 +20,9 @@
   "author": "Semenov Vasyl <monstrodev@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MonstroDev/expo-multiple-image-picker/issues"
+    "url": "https://github.com/MonstroDev/expo-image-picker-multiple/issues"
   },
-  "homepage": "https://github.com/MonstroDev/expo-multiple-image-picker#readme",
+  "homepage": "https://github.com/MonstroDev/expo-image-picker-multiple#readme",
   "dependencies": {
     "expo-media-library": "^8.0.0"
   },
