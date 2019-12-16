@@ -1,6 +1,6 @@
 {
   "name": "expo-image-picker-multiple",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Multiple image selecting package for React Native using Expo FileSystem",
   "main": "index.js",
   "scripts": {

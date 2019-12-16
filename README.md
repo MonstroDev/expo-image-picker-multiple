@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/expo-image-picker-multiple.svg)](https://badge.fury.io/js/expo-multiple-media-imagepicker)
+[![npm version](https://badge.fury.io/js/expo-image-picker-multiple.svg)](https://badge.fury.io/js/expo-image-picker-multiple)
 
 # expo-image-picker-multiple
 
