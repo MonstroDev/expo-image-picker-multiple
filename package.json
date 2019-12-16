@@ -1,0 +1,46 @@
+{
+  "name": "expo-multiple-image-picker",
+  "version": "1.0.0",
+  "description": "Multiple image selecting package for React Native using Expo FileSystem",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MonstroDev/expo-multiple-image-picker.git"
+  },
+  "keywords": [
+    "Expo",
+    "imagepicker",
+    "multiple",
+    "Reat",
+    "Native"
+  ],
+  "author": "Semenov Vasyl <monstrodev@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MonstroDev/expo-multiple-image-picker/issues"
+  },
+  "homepage": "https://github.com/MonstroDev/expo-multiple-image-picker#readme",
+  "dependencies": {
+    "expo-file-system": "^8.0.0"
+  },
+  "peerDependencies": {
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "babel-preset-expo": "^8.0.0",
+    "eslint": "^6.7.2",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-jsx": "^8.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-standard": "^4.0.1"
+  }
+}
