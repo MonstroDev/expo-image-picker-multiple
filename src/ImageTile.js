@@ -18,7 +18,7 @@ class ImageTile extends React.PureComponent {
         onPress={() => selectImage(index)}>
         <Image
           style={{width: width / 4, height: width / 4}}
-          source={{uri: item}}
+          source={{uri: item.uri}}
         />
       </TouchableHighlight>
     )

@@ -1,6 +1,6 @@
 {
   "name": "expo-image-picker-multiple",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Multiple image selecting package for React Native using Expo FileSystem",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/MonstroDev/expo-multiple-image-picker#readme",
   "dependencies": {
-    "expo-file-system": "^8.0.0"
+    "expo-media-library": "^8.0.0"
   },
   "peerDependencies": {
     "react-native": "*"

@@ -2,7 +2,7 @@
 
 # expo-image-picker-multiple
 
-Multiple image selecting package for Expo SDK (React Native) using [FileSystem](https://docs.expo.io/versions/latest/sdk/filesystem/).
+Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library).
 
 ## usage
 1. Install the repository

@@ -2,21 +2,20 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  CameraRoll,
   FlatList,
   Dimensions,
   Platform,
   ActivityIndicator,
-} from 'react-native';
-import * as FileSystem from 'expo-file-system';
+} from 'react-native'
+import * as MediaLibrary from 'expo-media-library'
 import ImageTile from './ImageTile'
 
-const {width} = Dimensions.get('window')
+const {width} = Dimensions.get('window');
 
 export default class ImageBrowser extends React.Component {
   state = {
     photos: [],
-    selected: {},
+    selected: [],
     after: null,
     has_next_page: true
   }
@@ -26,35 +25,40 @@ export default class ImageBrowser extends React.Component {
   }
 
   selectImage = (index) => {
-    let newSelected = {...this.state.selected};
-    if (newSelected[index]) {
-      delete newSelected[index];
+    let newSelected = Array.from(this.state.selected);
+    if (newSelected.indexOf(index) === -1) {
+      newSelected.push(index)
     } else {
-      newSelected[index] = true
+      const deleteIndex = newSelected.indexOf(index)
+      newSelected.splice(deleteIndex, 1)
     }
-    if (Object.keys(newSelected).length > this.props.max) return;
-    if (!newSelected) newSelected = {};
+    if (newSelected.length > this.props.max) return;
+    if (!newSelected) newSelected = [];
     this.setState({selected: newSelected});
-    this.props.onChange(Object.keys(newSelected).length, () => this.prepareCallback());
+    this.props.onChange(newSelected.length, () => this.prepareCallback());
   }
 
   getPhotos = () => {
-    let params = {first: 50, assetType: 'Photos'};
+    let params = {
+      first: 50,
+      assetType: 'Photos',
+      sortBy: ['creationTime']
+    };
     if (Platform.OS === 'ios') params.groupTypes = 'All'; // undocumented requirement or results will be empty
     if (this.state.after) params.after = this.state.after;
     if (!this.state.has_next_page) return;
-    CameraRoll
-      .getPhotos(params)
+    MediaLibrary
+      .getAssetsAsync(params)
       .then(this.processPhotos)
   }
 
   processPhotos = (r) => {
-    if (this.state.after === r.page_info.end_cursor) return;
-    const uris = r.edges.map(i => i.node).map(i => i.image).map(i => i.uri)
+    if (this.state.after === r.endCursor) return;
+    const uris = r.assets
     this.setState({
       photos: [...this.state.photos, ...uris],
-      after: r.page_info.end_cursor,
-      has_next_page: r.page_info.has_next_page
+      after: r.endCursor,
+      has_next_page: r.hasNextPage
     });
   }
 
@@ -64,24 +68,18 @@ export default class ImageBrowser extends React.Component {
   }
 
   prepareCallback() {
-    const {selected, photos} = this.state;
-    const selectedPhotos = photos.filter((item, index) => selected[index]);
-    const files = selectedPhotos
-      .map(i => FileSystem.getInfoAsync(i, {md5: true}))
-    const callbackResult = Promise
-      .all(files)
-      .then(imageData => {
-        return imageData.map((data, i) => {
-          return {file: selectedPhotos[i], ...data};
-        })
-      })
-    this.props.callback(callbackResult)
+    const { selected, photos } = this.state;
+    const selectedPhotos = selected.map(i => photos[i]);
+    const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
+    this.props.callback(assetsInfo);
   }
 
   renderImageTile = ({item, index}) => {
-    const selected = this.state.selected[index] ? true : false;
+    const selected = this.state.selected.indexOf(index) !== -1;
+    const selectedItemCount = this.state.selected.indexOf(index) + 1;
     return (
       <ImageTile
+        selectedItemCount={selectedItemCount}
         item={item}
         index={index}
         selected={selected}
