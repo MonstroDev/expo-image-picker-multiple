@@ -6,6 +6,7 @@ import {
   Dimensions,
   Platform,
   ActivityIndicator,
+  Text,
 } from 'react-native'
 import * as MediaLibrary from 'expo-media-library'
 import ImageTile from './ImageTile'
@@ -16,8 +17,9 @@ export default class ImageBrowser extends React.Component {
   state = {
     photos: [],
     selected: [],
+    isEmpty: false,
     after: null,
-    has_next_page: true
+    hasNextPage: true
   }
 
   componentDidMount() {
@@ -39,27 +41,30 @@ export default class ImageBrowser extends React.Component {
   }
 
   getPhotos = () => {
-    let params = {
-      first: 50,
+    const params = {
+      first: this.props.loadCount || 50,
       assetType: 'Photos',
       sortBy: ['creationTime']
     };
-    if (Platform.OS === 'ios') params.groupTypes = 'All'; // undocumented requirement or results will be empty
     if (this.state.after) params.after = this.state.after;
-    if (!this.state.has_next_page) return;
+    if (!this.state.hasNextPage) return;
     MediaLibrary
       .getAssetsAsync(params)
       .then(this.processPhotos)
   }
 
-  processPhotos = (r) => {
-    if (this.state.after === r.endCursor) return;
-    const uris = r.assets
-    this.setState({
-      photos: [...this.state.photos, ...uris],
-      after: r.endCursor,
-      has_next_page: r.hasNextPage
-    });
+  processPhotos = (data) => {
+    if (data.totalCount) {
+      if (this.state.after === data.endCursor) return;
+      const uris = data.assets;
+      this.setState({
+        photos: [...this.state.photos, ...uris],
+        after: data.endCursor,
+        hasNextPage: data.hasNextPage
+      });
+    } else {
+      this.setState({isEmpty: true});
+    }
   }
 
   getItemLayout = (data, index) => {
@@ -88,6 +93,14 @@ export default class ImageBrowser extends React.Component {
     )
   }
 
+  renderPreloader = () => {
+    return this.props.preloaderComponent || <ActivityIndicator size="large"/>
+  }
+
+  renderEmptyStay = () => {
+    return this.props.emptyStayComponent || <Text style={{textAlign: 'center'}}>Empty =(</Text>
+  }
+
   renderImages() {
     return (
       <FlatList
@@ -95,11 +108,9 @@ export default class ImageBrowser extends React.Component {
         numColumns={4}
         renderItem={this.renderImageTile}
         keyExtractor={(_, index) => index}
-        onEndReached={() => {
-          this.getPhotos()
-        }}
+        onEndReached={() => {this.getPhotos()}}
         onEndReachedThreshold={0.5}
-        ListEmptyComponent={<ActivityIndicator size="large"/>}
+        ListEmptyComponent={this.state.isEmpty ? this.renderEmptyStay() : this.renderPreloader()}
         initialNumToRender={24}
         getItemLayout={this.getItemLayout}
       />
