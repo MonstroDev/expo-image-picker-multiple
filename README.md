@@ -33,3 +33,4 @@ Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary
 - `loadCount`: by default `50`
 - `emptyStayComponent`: by default `Empty =(` text
 - `preloaderComponent`: by default `ActivityIndicator` (loader)
+- `renderSelectedComponent`: one-parameter (selected number) function is expected to return the component for the icon/text over the selected picture

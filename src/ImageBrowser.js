@@ -81,14 +81,15 @@ export default class ImageBrowser extends React.Component {
 
   renderImageTile = ({item, index}) => {
     const selected = this.state.selected.indexOf(index) !== -1;
-    const selectedItemCount = this.state.selected.indexOf(index) + 1;
+    const selectedItemNumber = this.state.selected.indexOf(index) + 1;
     return (
       <ImageTile
-        selectedItemCount={selectedItemCount}
+        selectedItemNumber={selectedItemNumber}
         item={item}
         index={index}
         selected={selected}
         selectImage={this.selectImage}
+        renderSelectedComponent={this.props.renderSelectedComponent}
       />
     )
   }
