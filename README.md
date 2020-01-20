@@ -2,7 +2,17 @@
 
 # expo-image-picker-multiple
 
-Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library).
+Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library) and [Permissions](https://docs.expo.io/versions/latest/sdk/permissions).
+
+###[Snack demo](https://snack.expo.io/@monstrodev/expo-image-picker-multiple-example)
+
+##Features
+- Select multiple images
+- Change orientation (4 in a row for vertical and 7 for horizontal orientations)
+- Displays the selected image number
+- Permission requests
+- Customization
+- Sorting from new to old
 
 ## Usage
 1. Install the repository
@@ -31,6 +41,7 @@ Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary
     ```
 ### Props:   
 - `loadCount`: by default `50`
-- `emptyStayComponent`: by default `Empty =(` text
+- `emptyStayComponent`: by default `null`
+- `noCameraPermissionComponent`: by default `null`
 - `preloaderComponent`: by default `ActivityIndicator` (loader)
 - `renderSelectedComponent`: one-parameter (selected number) function is expected to return the component for the icon/text over the selected picture

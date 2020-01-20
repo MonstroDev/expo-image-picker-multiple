@@ -4,17 +4,20 @@ import {
   View,
   FlatList,
   Dimensions,
-  Platform,
   ActivityIndicator,
-  Text,
 } from 'react-native'
+import { ScreenOrientation } from 'expo';
 import * as MediaLibrary from 'expo-media-library'
+import * as Permissions from 'expo-permissions'
 import ImageTile from './ImageTile'
 
 const {width} = Dimensions.get('window');
 
 export default class ImageBrowser extends React.Component {
   state = {
+    hasCameraPermission: null,
+    hasCameraRollPermission: null,
+    numColumns: null,
     photos: [],
     selected: [],
     isEmpty: false,
@@ -22,17 +25,40 @@ export default class ImageBrowser extends React.Component {
     hasNextPage: true
   }
 
-  componentDidMount() {
-    this.getPhotos()
+  async componentDidMount() {
+    this.getPermissionsAsync();
+    ScreenOrientation.addOrientationChangeListener(this.onOrientationChange);
+    const orientation = await ScreenOrientation.getOrientationAsync();
+    const numColumns = this.getNumColumns(orientation.orientation);
+    this.setState({numColumns});
+    this.getPhotos();
   }
+
+  getPermissionsAsync = async () => {
+    const {status: camera} = await Permissions.askAsync(Permissions.CAMERA);
+    const {status: cameraRoll} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    this.setState({
+      hasCameraPermission: camera === 'granted',
+      hasCameraRollPermission: cameraRoll === 'granted'
+    });
+  }
+
+  onOrientationChange = ({orientationInfo}) => {
+    ScreenOrientation.removeOrientationChangeListeners();
+    ScreenOrientation.addOrientationChangeListener(this.onOrientationChange);
+    const numColumns = this.getNumColumns(orientationInfo.orientation);
+    this.setState({numColumns});
+  }
+
+  getNumColumns = orientation => orientation.indexOf('PORTRAIT') !== -1 ? 4 : 7;
 
   selectImage = (index) => {
     let newSelected = Array.from(this.state.selected);
     if (newSelected.indexOf(index) === -1) {
-      newSelected.push(index)
+      newSelected.push(index);
     } else {
-      const deleteIndex = newSelected.indexOf(index)
-      newSelected.splice(deleteIndex, 1)
+      const deleteIndex = newSelected.indexOf(index);
+      newSelected.splice(deleteIndex, 1);
     }
     if (newSelected.length > this.props.max) return;
     if (!newSelected) newSelected = [];
@@ -50,7 +76,7 @@ export default class ImageBrowser extends React.Component {
     if (!this.state.hasNextPage) return;
     MediaLibrary
       .getAssetsAsync(params)
-      .then(this.processPhotos)
+      .then(this.processPhotos);
   }
 
   processPhotos = (data) => {
@@ -69,7 +95,7 @@ export default class ImageBrowser extends React.Component {
 
   getItemLayout = (data, index) => {
     const length = width / 4;
-    return {length, offset: length * index, index}
+    return {length, offset: length * index, index};
   }
 
   prepareCallback() {
@@ -94,19 +120,16 @@ export default class ImageBrowser extends React.Component {
     )
   }
 
-  renderPreloader = () => {
-    return this.props.preloaderComponent || <ActivityIndicator size="large"/>
-  }
+  renderPreloader = () =>  this.props.preloaderComponent || <ActivityIndicator size="large"/>;
 
-  renderEmptyStay = () => {
-    return this.props.emptyStayComponent || <Text style={{textAlign: 'center'}}>Empty =(</Text>
-  }
+  renderEmptyStay = () =>  this.props.emptyStayComponent || null;
 
   renderImages() {
     return (
       <FlatList
         data={this.state.photos}
-        numColumns={4}
+        numColumns={this.state.numColumns}
+        key={this.state.numColumns}
         renderItem={this.renderImageTile}
         keyExtractor={(_, index) => index}
         onEndReached={() => {this.getPhotos()}}
@@ -119,6 +142,12 @@ export default class ImageBrowser extends React.Component {
   }
 
   render() {
+    const {hasCameraPermission} = this.state;
+
+    if (!hasCameraPermission) {
+      return this.props.noCameraPermissionComponent || null;
+    }
+
     return (
       <View style={styles.container}>
         {this.renderImages()}
@@ -130,6 +159,5 @@ export default class ImageBrowser extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
   },
 })
