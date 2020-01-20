@@ -4,9 +4,9 @@
 
 Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library) and [Permissions](https://docs.expo.io/versions/latest/sdk/permissions).
 
-###[Snack demo](https://snack.expo.io/@monstrodev/expo-image-picker-multiple-example)
+### [Snack demo](https://snack.expo.io/@monstrodev/expo-image-picker-multiple-example)
 
-##Features
+## Features
 - Selects multiple images
 - Changes orientation (4 in a row for vertical and 7 for horizontal orientations)
 - Displays the selected image number
