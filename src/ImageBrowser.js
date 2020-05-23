@@ -6,7 +6,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from 'react-native'
-import { ScreenOrientation } from 'expo';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import * as MediaLibrary from 'expo-media-library'
 import * as Permissions from 'expo-permissions'
 import ImageTile from './ImageTile'
@@ -29,7 +29,7 @@ export default class ImageBrowser extends React.Component {
     await this.getPermissionsAsync();
     ScreenOrientation.addOrientationChangeListener(this.onOrientationChange);
     const orientation = await ScreenOrientation.getOrientationAsync();
-    const numColumns = this.getNumColumns(orientation.orientation);
+    const numColumns = this.getNumColumns(orientation);
     this.setState({numColumns});
     this.getPhotos();
   }
@@ -50,7 +50,7 @@ export default class ImageBrowser extends React.Component {
     this.setState({numColumns});
   }
 
-  getNumColumns = orientation => orientation.indexOf('PORTRAIT') !== -1 ? 4 : 7;
+  getNumColumns = orientation => orientation !== ScreenOrientation.Orientation.PORTRAIT_UP ? 4 : 7;
 
   selectImage = (index) => {
     let newSelected = Array.from(this.state.selected);
