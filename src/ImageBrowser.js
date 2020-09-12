@@ -62,8 +62,13 @@ export default class ImageBrowser extends React.Component {
     }
     if (newSelected.length > this.props.max) return;
     if (!newSelected) newSelected = [];
-    this.setState({selected: newSelected});
-    this.props.onChange(newSelected.length, () => this.prepareCallback());
+    
+    this.setState({selected: newSelected});     
+
+    const { photos } = this.state;
+    const selectedPhotos = newSelected.map(i => photos[i]);    
+    
+    this.props.onChange(newSelected.length, selectedPhotos, () => this.prepareCallback());    
   }
 
   getPhotos = () => {
