@@ -50,7 +50,11 @@ export default class ImageBrowser extends React.Component {
     this.setState({numColumns});
   }
 
-  getNumColumns = orientation => orientation !== ScreenOrientation.Orientation.PORTRAIT_UP ? 4 : 7;
+  getNumColumns = orientation => {
+    const isPortrait = orientation === ScreenOrientation.Orientation.PORTRAIT_UP ||
+      orientation === ScreenOrientation.Orientation.PORTRAIT_DOWN;
+    return isPortrait ? 4 : 7;
+  }
 
   selectImage = (index) => {
     let newSelected = Array.from(this.state.selected);
@@ -61,9 +65,10 @@ export default class ImageBrowser extends React.Component {
       newSelected.splice(deleteIndex, 1);
     }
     if (newSelected.length > this.props.max) return;
-    if (!newSelected) newSelected = [];
-    this.setState({selected: newSelected});
-    this.props.onChange(newSelected.length, () => this.prepareCallback());
+    if (!newSelected) newSelected = []; 
+    this.setState({selected: newSelected}, () =>{
+      this.props.onChange(newSelected.length, this.prepareCallback());
+    });
   }
 
   getPhotos = () => {
