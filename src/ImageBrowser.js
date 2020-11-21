@@ -116,7 +116,6 @@ export default class ImageBrowser extends React.Component {
 
   prepareCallback() {
     const { selected, photos } = this.state;
-<<<<<<< HEAD
     const { loadCompleteMetadata } = this.props;
     const selectedPhotos = selected.map(i => photos[i]);
     if (!loadCompleteMetadata){
@@ -126,11 +125,6 @@ export default class ImageBrowser extends React.Component {
       const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
       this.props.callback(assetsInfo);
     }
-=======
-    const selectedPhotos = selected.map(i => photos[i]);
-    const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
-    this.props.callback(assetsInfo);
->>>>>>> 2bae8ec16d2d5de4de7c3dc96ebebdcca1008b60
   }
 
   renderImageTile = ({item, index}) => {
