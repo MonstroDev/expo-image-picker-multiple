@@ -74,19 +74,12 @@ export default class ImageBrowser extends React.Component {
       newSelected.splice(deleteIndex, 1);
     }
     if (newSelected.length > this.props.max) return;
-<<<<<<< HEAD
     if (!newSelected) newSelected = [];
     this.setState({selected: newSelected},
       ()=>{this.props.onChange(newSelected.length, () => this.prepareCallback());
       }
      ) ;
     
-=======
-    if (!newSelected) newSelected = []; 
-    this.setState({selected: newSelected}, () =>{
-      this.props.onChange(newSelected.length, this.prepareCallback());
-    });
->>>>>>> 2bae8ec16d2d5de4de7c3dc96ebebdcca1008b60
   }
 
   getPhotos = () => {
