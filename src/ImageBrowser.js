@@ -14,6 +14,11 @@ import ImageTile from './ImageTile'
 const {width} = Dimensions.get('window');
 
 export default class ImageBrowser extends React.Component {
+
+  static defaultProps = {
+    loadCompleteMetadata:false
+  }
+
   state = {
     hasCameraPermission: null,
     hasCameraRollPermission: null,
@@ -50,11 +55,15 @@ export default class ImageBrowser extends React.Component {
     this.setState({numColumns});
   }
 
+<<<<<<< HEAD
+  getNumColumns = orientation => orientation !== ScreenOrientation.Orientation.PORTRAIT_UP ? 4 : 7;
+=======
   getNumColumns = orientation => {
     const isPortrait = orientation === ScreenOrientation.Orientation.PORTRAIT_UP ||
       orientation === ScreenOrientation.Orientation.PORTRAIT_DOWN;
     return isPortrait ? 4 : 7;
   }
+>>>>>>> 2bae8ec16d2d5de4de7c3dc96ebebdcca1008b60
 
   selectImage = (index) => {
     let newSelected = Array.from(this.state.selected);
@@ -65,10 +74,19 @@ export default class ImageBrowser extends React.Component {
       newSelected.splice(deleteIndex, 1);
     }
     if (newSelected.length > this.props.max) return;
+<<<<<<< HEAD
+    if (!newSelected) newSelected = [];
+    this.setState({selected: newSelected},
+      ()=>{this.props.onChange(newSelected.length, () => this.prepareCallback());
+      }
+     ) ;
+    
+=======
     if (!newSelected) newSelected = []; 
     this.setState({selected: newSelected}, () =>{
       this.props.onChange(newSelected.length, this.prepareCallback());
     });
+>>>>>>> 2bae8ec16d2d5de4de7c3dc96ebebdcca1008b60
   }
 
   getPhotos = () => {
@@ -105,9 +123,21 @@ export default class ImageBrowser extends React.Component {
 
   prepareCallback() {
     const { selected, photos } = this.state;
+<<<<<<< HEAD
+    const { loadCompleteMetadata } = this.props;
+    const selectedPhotos = selected.map(i => photos[i]);
+    if (!loadCompleteMetadata){
+      this.props.callback(Promise.all(selectedPhotos));
+    }
+    else{
+      const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
+      this.props.callback(assetsInfo);
+    }
+=======
     const selectedPhotos = selected.map(i => photos[i]);
     const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
     this.props.callback(assetsInfo);
+>>>>>>> 2bae8ec16d2d5de4de7c3dc96ebebdcca1008b60
   }
 
   renderImageTile = ({item, index}) => {

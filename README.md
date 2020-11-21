@@ -44,6 +44,7 @@ Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary
 ### Props:   
 - `max`: maximum number of photos
 - `loadCount`: by default `50`
+- `loadCompleteMetadata`: Whether to load [extra fields](https://docs.expo.io/versions/latest/sdk/media-library/#asset) like location. Loading all of the information will reduce performance. by default `false`
 - `emptyStayComponent`: by default `null`
 - `noCameraPermissionComponent`: by default `null`
 - `preloaderComponent`: by default `ActivityIndicator` (loader)
