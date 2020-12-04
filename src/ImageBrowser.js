@@ -74,8 +74,8 @@ export default class ImageBrowser extends React.Component {
   getPhotos = () => {
     const params = {
       first: this.props.loadCount || 50,
-      assetType: 'Photos',
-      sortBy: ['creationTime']
+      assetType: MediaLibrary.MediaType.photo,
+      sortBy: [MediaLibrary.SortBy]
     };
     if (this.state.after) params.after = this.state.after;
     if (!this.state.hasNextPage) return;
