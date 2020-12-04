@@ -14,6 +14,13 @@ import ImageTile from './ImageTile'
 const {width} = Dimensions.get('window');
 
 export default class ImageBrowser extends React.Component {
+  static defaultProps = {
+    loadCompleteMetadata: true,
+    loadCount: 50,
+    emptyStayComponent: null,
+    preloaderComponent: <ActivityIndicator size='large'/>
+  }
+
   state = {
     hasCameraPermission: null,
     hasCameraRollPermission: null,
@@ -73,7 +80,7 @@ export default class ImageBrowser extends React.Component {
 
   getPhotos = () => {
     const params = {
-      first: this.props.loadCount || 50,
+      first: this.props.loadCount,
       assetType: MediaLibrary.MediaType.photo,
       sortBy: [MediaLibrary.SortBy.creationTime]
     };
@@ -104,10 +111,15 @@ export default class ImageBrowser extends React.Component {
   }
 
   prepareCallback() {
+    const { loadCompleteMetadata } = this.props;
     const { selected, photos } = this.state;
     const selectedPhotos = selected.map(i => photos[i]);
-    const assetsInfo = Promise.all(selectedPhotos);
-    this.props.callback(assetsInfo);
+    if (!loadCompleteMetadata){
+      this.props.callback(Promise.all(selectedPhotos));
+    } else {
+      const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
+      this.props.callback(assetsInfo);
+    }
   }
 
   renderImageTile = ({item, index}) => {
@@ -125,9 +137,9 @@ export default class ImageBrowser extends React.Component {
     );
   }
 
-  renderPreloader = () => this.props.preloaderComponent || <ActivityIndicator size='large'/>;
+  renderPreloader = () => this.props.preloaderComponent;
 
-  renderEmptyStay = () => this.props.emptyStayComponent || null;
+  renderEmptyStay = () => this.props.emptyStayComponent;
 
   renderImages() {
     return (
