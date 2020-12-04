@@ -4,7 +4,6 @@
 
 Multiple image selecting package for Expo SDK (React Native) using [MediaLibrary](https://docs.expo.io/versions/latest/sdk/media-library) and [Permissions](https://docs.expo.io/versions/latest/sdk/permissions).
 
-### [Snack demo](https://snack.expo.io/@monstrodev/expo-image-picker-multiple-example)
 ### [Snack full demo](https://snack.expo.io/@monstrodev/expo-image-picker-multiple-full-example) with navbar and compression
 ![Demo](https://media.giphy.com/media/LP0lZs1dvVCsTk59Bw/giphy.gif)
 

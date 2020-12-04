@@ -51,8 +51,8 @@ export default class ImageBrowser extends React.Component {
   }
 
   getNumColumns = orientation => {
-    const isPortrait = orientation === ScreenOrientation.Orientation.PORTRAIT_UP ||
-      orientation === ScreenOrientation.Orientation.PORTRAIT_DOWN;
+    const {PORTRAIT_UP, PORTRAIT_DOWN} = ScreenOrientation.Orientation;
+    const isPortrait = orientation === PORTRAIT_UP || orientation === PORTRAIT_DOWN;
     return isPortrait ? 4 : 7;
   }
 
@@ -67,7 +67,7 @@ export default class ImageBrowser extends React.Component {
     if (newSelected.length > this.props.max) return;
     if (!newSelected) newSelected = []; 
     this.setState({selected: newSelected}, () =>{
-      this.props.onChange(newSelected.length, this.prepareCallback());
+      this.props.onChange(newSelected.length, () => this.prepareCallback());
     });
   }
 
@@ -106,7 +106,7 @@ export default class ImageBrowser extends React.Component {
   prepareCallback() {
     const { selected, photos } = this.state;
     const selectedPhotos = selected.map(i => photos[i]);
-    const assetsInfo = Promise.all(selectedPhotos.map(i => MediaLibrary.getAssetInfoAsync(i)));
+    const assetsInfo = Promise.all(selectedPhotos);
     this.props.callback(assetsInfo);
   }
 
@@ -122,12 +122,12 @@ export default class ImageBrowser extends React.Component {
         selectImage={this.selectImage}
         renderSelectedComponent={this.props.renderSelectedComponent}
       />
-    )
+    );
   }
 
-  renderPreloader = () =>  this.props.preloaderComponent || <ActivityIndicator size="large"/>;
+  renderPreloader = () => this.props.preloaderComponent || <ActivityIndicator size='large'/>;
 
-  renderEmptyStay = () =>  this.props.emptyStayComponent || null;
+  renderEmptyStay = () => this.props.emptyStayComponent || null;
 
   renderImages() {
     return (
@@ -137,21 +137,18 @@ export default class ImageBrowser extends React.Component {
         key={this.state.numColumns}
         renderItem={this.renderImageTile}
         keyExtractor={(_, index) => index}
-        onEndReached={() => {this.getPhotos()}}
+        onEndReached={() => this.getPhotos()}
         onEndReachedThreshold={0.5}
         ListEmptyComponent={this.state.isEmpty ? this.renderEmptyStay() : this.renderPreloader()}
         initialNumToRender={24}
         getItemLayout={this.getItemLayout}
       />
-    )
+    );
   }
 
   render() {
     const {hasCameraPermission} = this.state;
-
-    if (!hasCameraPermission) {
-      return this.props.noCameraPermissionComponent || null;
-    }
+    if (!hasCameraPermission) return this.props.noCameraPermissionComponent || null;
 
     return (
       <View style={styles.container}>
@@ -165,4 +162,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-})
+});
