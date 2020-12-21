@@ -18,7 +18,8 @@ export default class ImageBrowser extends React.Component {
     loadCompleteMetadata: true,
     loadCount: 50,
     emptyStayComponent: null,
-    preloaderComponent: <ActivityIndicator size='large'/>
+    preloaderComponent: <ActivityIndicator size='large'/>,
+    mediaType: [MediaLibrary.MediaType.photo]
   }
 
   state = {
@@ -81,7 +82,7 @@ export default class ImageBrowser extends React.Component {
   getPhotos = () => {
     const params = {
       first: this.props.loadCount,
-      assetType: MediaLibrary.MediaType.photo,
+      mediaType: this.props.mediaType,
       sortBy: [MediaLibrary.SortBy.creationTime]
     };
     if (this.state.after) params.after = this.state.after;
@@ -133,6 +134,7 @@ export default class ImageBrowser extends React.Component {
         selected={selected}
         selectImage={this.selectImage}
         renderSelectedComponent={this.props.renderSelectedComponent}
+        renderExtraComponent={this.props.renderExtraComponent}
       />
     );
   }

@@ -10,7 +10,7 @@ const {width} = Dimensions.get('window');
 
 class ImageTile extends React.PureComponent {
   render() {
-    const { item, index, selected, selectImage, selectedItemNumber, renderSelectedComponent } = this.props;
+    const { item, index, selected, selectImage, selectedItemNumber, renderSelectedComponent, renderExtraComponent } = this.props;
     if (!item) return null;
     return (
       <TouchableHighlight
@@ -23,6 +23,7 @@ class ImageTile extends React.PureComponent {
               style={{ width: width / 4, height: width / 4 }}
               source={{ uri: item.uri }} >
               {selected && renderSelectedComponent && renderSelectedComponent(selectedItemNumber)}
+              {renderExtraComponent && renderExtraComponent(item)}
             </ImageBackground>
           </View>
         </View>
