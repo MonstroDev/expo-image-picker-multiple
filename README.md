@@ -32,10 +32,10 @@ Multiple image (video, etc.) selecting package for Expo SDK (React Native) using
     ```js
     <ImageBrowser
       max={4}
-      onChange={(callback) => {
+      onChange={(num, onSubmit)  => {
         
       }}
-      callback={(num, onSubmit) => {
+      callback={(callback) => {
 
       }}
     />

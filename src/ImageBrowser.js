@@ -15,7 +15,7 @@ const {width} = Dimensions.get('window');
 
 export default class ImageBrowser extends React.Component {
   static defaultProps = {
-    loadCompleteMetadata: true,
+    loadCompleteMetadata: false,
     loadCount: 50,
     emptyStayComponent: null,
     preloaderComponent: <ActivityIndicator size='large'/>,
