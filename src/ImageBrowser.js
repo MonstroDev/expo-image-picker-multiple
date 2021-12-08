@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as ImagePicker from 'expo-image-picker'
+import * as MediaLibrary from 'expo-media-library'
 
 import ImageTile from './ImageTile'
 
