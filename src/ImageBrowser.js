@@ -7,8 +7,8 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import * as ScreenOrientation from 'expo-screen-orientation';
-import * as MediaLibrary from 'expo-media-library'
-import * as Permissions from 'expo-permissions'
+import * as ImagePicker from 'expo-image-picker'
+
 import ImageTile from './ImageTile'
 
 const {width} = Dimensions.get('window');
@@ -43,8 +43,8 @@ export default class ImageBrowser extends React.Component {
   }
 
   getPermissionsAsync = async () => {
-    const {status: camera} = await Permissions.askAsync(Permissions.CAMERA);
-    const {status: cameraRoll} = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    const { status: camera } = await ImagePicker.requestCameraPermissionsAsync()
+    const { status: cameraRoll } = await ImagePicker.requestMediaLibraryPermissionsAsync()
     this.setState({
       hasCameraPermission: camera === 'granted',
       hasCameraRollPermission: cameraRoll === 'granted'
