@@ -19,10 +19,12 @@ Multiple image (video, etc.) selecting package for Expo SDK (React Native) using
 1. Install the repository
     ```bash
     $ npm install --save expo-image-picker-multiple
+    $ expo install expo-image-picker expo-media-library # install peer dependency
     ```
     or
     ```bash
     $ yarn add expo-image-picker-multiple
+    $ expo install expo-image-picker expo-media-library # install peer dependency
     ```
 2. Add an import to the top of your file
     ```js
