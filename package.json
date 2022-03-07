@@ -33,16 +33,16 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
-    "babel-preset-expo": "^9.0.2",
-    "eslint": "^8.10.0",
-    "eslint-config-standard": "^16.0.3",
+    "babel-preset-expo": "^8.0.0",
+    "eslint": "^7.15.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-config-standard-jsx": "^10.0.0",
     "eslint-config-standard-react": "^11.0.1",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.29.3",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^5.0.0"
   }
 }
